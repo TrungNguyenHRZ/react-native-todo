@@ -1,18 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
+  const [count, setCount] = useState<number>(0);
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.header}>TrungNT</Text>
-        <Text style={styles.parent}>
-          TrungNTTT <Text style={styles.child}>Hello</Text>
-        </Text>
+      <Text style={{ fontSize: 40, fontWeight: "600" }}>{count}</Text>
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <Button
+          title="trừ"
+          onPress={() => setCount(count - 1)}
+          disabled={count <= 0}
+        />
+        <Button title="cộng" onPress={() => setCount(count + 1)} />
+        <Button title="Mặc định" onPress={() => setCount(1)} />
       </View>
-      <Text style={styles.hello1}>Hello world with TrungNT</Text>
-      <Text>Hello world with TrungNT</Text>
-      <StatusBar style="auto" />
     </View>
   );
 }
@@ -24,25 +27,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  hello1: {
-    color: "red",
-    fontSize: 60,
-    textAlign: "center",
-    borderColor: "green",
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 10,
-  },
-  header: {
-    fontSize: 30,
-    fontWeight: "600",
-  },
-  parent: {
-    fontSize: 60,
-    color: "green",
-  },
-  child: {
-    fontSize: 30,
-    color: "pink",
-  },
+  countButton: {},
 });
