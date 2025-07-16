@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
   Button,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -41,12 +42,45 @@ export default function App() {
       name: "Eric5",
       age: 18,
     },
+    {
+      id: 7,
+      name: "Eric6",
+      age: 18,
+    },
+    {
+      id: 8,
+      name: "Eric7",
+      age: 18,
+    },
+    {
+      id: 9,
+      name: "Eric8",
+      age: 18,
+    },
   ]);
 
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 60 }}>Hello world</Text>
-      <ScrollView>
+      <FlatList
+        keyExtractor={(item) => item.id + ""}
+        data={students}
+        renderItem={({ item }) => {
+          return (
+            <View
+              style={{
+                padding: 25,
+                backgroundColor: "pink",
+                marginBottom: 30,
+                marginHorizontal: 30,
+              }}
+            >
+              <Text>{item.name}</Text>
+            </View>
+          );
+        }}
+      />
+      {/* <ScrollView>
         {students.map((item) => {
           return (
             <View
@@ -61,7 +95,7 @@ export default function App() {
             </View>
           );
         })}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }
