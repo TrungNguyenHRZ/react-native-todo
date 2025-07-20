@@ -3,10 +3,12 @@ import { useState } from "react";
 import {
   Button,
   FlatList,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -25,6 +27,10 @@ export default function App() {
   const handleAddTodo = () => {
     setListTodos([...listTodos, { id: randomInteger(2, 2000), name: todos }]);
     setTodos("");
+  };
+
+  const deleteTodo = (id: number) => {
+    setListTodos(listTodos.filter((todo) => todo.id !== id));
   };
   return (
     <View style={styles.container}>
@@ -49,7 +55,14 @@ export default function App() {
         <FlatList
           data={listTodos}
           renderItem={({ item }) => {
-            return <Text style={styles.todoItem}>{item.name}</Text>;
+            return (
+              <Pressable
+                style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+                onPress={() => deleteTodo(item.id)}
+              >
+                <Text style={styles.todoItem}>{item.name}</Text>
+              </Pressable>
+            );
           }}
         />
       </View>
