@@ -1,14 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
+  Alert,
   Button,
   FlatList,
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
@@ -25,6 +28,15 @@ export default function App() {
   }
 
   const handleAddTodo = () => {
+    if (!todos) {
+      Alert.alert("Lỗi", "Hãy nhập việc cần làm", [
+        {
+          text: "Xác nhận",
+          onPress: () => console.log("OK Pressed"),
+        },
+      ]);
+      return;
+    }
     setListTodos([...listTodos, { id: randomInteger(2, 2000), name: todos }]);
     setTodos("");
   };
@@ -32,41 +44,56 @@ export default function App() {
   const deleteTodo = (id: number) => {
     setListTodos(listTodos.filter((todo) => todo.id !== id));
   };
+  const handleVerifyDelete = (id: number) => {
+    Alert.alert("Xác nhận", "Bạn có chắc muốn xóa việc này không?", [
+      {
+        text: "Hủy",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Xóa",
+        onPress: () => deleteTodo(id),
+      },
+    ]);
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Todo app</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.container}>
+        <Text style={styles.header}>Todo app</Text>
 
-      {/* form */}
-      <View style={styles.body}>
-        <TextInput
-          value={todos}
-          style={styles.todoInput}
-          onChangeText={(value) => setTodos(value)}
-        />
-        <Button
-          title="Add todo"
-          onPress={handleAddTodo}
-          disabled={todos.length === 0}
-        />
-      </View>
+        {/* form */}
+        <View style={styles.body}>
+          <TextInput
+            value={todos}
+            style={styles.todoInput}
+            onChangeText={(value) => setTodos(value)}
+          />
+          <Button title="Add todo" onPress={handleAddTodo} />
+        </View>
 
-      {/* list todo */}
-      <View style={styles.body}>
-        <FlatList
-          data={listTodos}
-          renderItem={({ item }) => {
-            return (
-              <Pressable
-                style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-                onPress={() => deleteTodo(item.id)}
-              >
-                <Text style={styles.todoItem}>{item.name}</Text>
-              </Pressable>
-            );
-          }}
-        />
+        {/* list todo */}
+        <View style={styles.body}>
+          <FlatList
+            data={listTodos}
+            renderItem={({ item }) => {
+              return (
+                <Pressable
+                  style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+                  onPress={() => handleVerifyDelete(item.id)}
+                >
+                  <Text style={styles.todoItem}>{item.name}</Text>
+                </Pressable>
+              );
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
