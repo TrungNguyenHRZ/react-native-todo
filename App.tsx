@@ -14,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import FlexBox from "./components/flex_box";
 
 interface ITodo {
   id: number;
@@ -58,42 +59,43 @@ export default function App() {
     ]);
   };
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.header}>Todo app</Text>
+    // <TouchableWithoutFeedback
+    //   onPress={() => {
+    //     Keyboard.dismiss();
+    //   }}
+    // >
+    //   <View style={styles.container}>
+    //     <Text style={styles.header}>Todo app</Text>
 
-        {/* form */}
-        <View style={styles.body}>
-          <TextInput
-            value={todos}
-            style={styles.todoInput}
-            onChangeText={(value) => setTodos(value)}
-          />
-          <Button title="Add todo" onPress={handleAddTodo} />
-        </View>
+    //     {/* form */}
+    //     <View style={styles.body}>
+    //       <TextInput
+    //         value={todos}
+    //         style={styles.todoInput}
+    //         onChangeText={(value) => setTodos(value)}
+    //       />
+    //       <Button title="Add todo" onPress={handleAddTodo} />
+    //     </View>
 
-        {/* list todo */}
-        <View style={styles.body}>
-          <FlatList
-            data={listTodos}
-            renderItem={({ item }) => {
-              return (
-                <Pressable
-                  style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-                  onPress={() => handleVerifyDelete(item.id)}
-                >
-                  <Text style={styles.todoItem}>{item.name}</Text>
-                </Pressable>
-              );
-            }}
-          />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
+    //     {/* list todo */}
+    //     <View style={styles.body}>
+    //       <FlatList
+    //         data={listTodos}
+    //         renderItem={({ item }) => {
+    //           return (
+    //             <Pressable
+    //               style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+    //               onPress={() => handleVerifyDelete(item.id)}
+    //             >
+    //               <Text style={styles.todoItem}>{item.name}</Text>
+    //             </Pressable>
+    //           );
+    //         }}
+    //       />
+    //     </View>
+    //   </View>
+    // </TouchableWithoutFeedback>
+    <FlexBox />
   );
 }
 
